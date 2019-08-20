@@ -10,6 +10,8 @@ alert ("Задание 2...");
 // var admin;
 // var Name; //отдельно тоже не помогло. Пришлось назвать с большо буквы.
 var admin;
+console.log("Тип и значение переменной admin после объявления:"+typeof(admin)+" "+admin);
+console.log("Тип и значение переменной name без объявления:"+typeof(name)+" "+name);
 name = undefined;
 alert("Создали переменную admin = "+admin+"\nи переменную name сделали undefined = "+name);
 name = "Василий";
@@ -28,3 +30,11 @@ alert("async & defer\n");
 alert('defer - выполняет сразу часть HTML кода до первой команды write()\n' +
     'async - сначала выполняет все скрипты и лишь потом write()\n' +
     'често говоря не понял для чего это надо и в чем подвох :)');
+alert("Задание 5...");
+var c = 5, d = 10;
+alert(c+" "+d);
+c+=d;
+d-=c;
+c+=d;
+d=d*-1;
+alert (c+" "+d);
