@@ -72,6 +72,10 @@ function mult (a, b) {
     return a * b;
 }
 function divid (a, b) {
+    if(!b) {
+        console.log("На ноль делить нельзя!");
+        return;
+    }
     return a / b;
 }
 console.log (sum(5, 7));
@@ -119,9 +123,6 @@ function power(val, pow) {
     else if (pow === 1) {
         return val;
     }
-    else {
-        result = val * power(val, --pow);
-    }
-    return result;
+    return val * power(val, --pow);
 }
-console.log ("power(2,64) = ",power(2,64));
+console.log ("power(2,64) = ", power(2,64));
