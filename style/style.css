@@ -1,0 +1,23 @@
+/* задание 1 */
+.smallPictures {
+    display: flex;
+    justify-content: center;
+}
+.smallPicture {
+    cursor: pointer;
+}
+.smallPicture:not(:last-child) {
+    margin-right: 1rem;
+}
+/* задание 2 */
+#goods {
+    display: flex;
+    justify-content: space-between;
+}
+.good {
+    width: 33.3%;
+}
+.goodPhoto {
+    max-width: 100%;
+    max-height: 300px;
+}
