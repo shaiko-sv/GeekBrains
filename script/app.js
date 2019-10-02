@@ -178,6 +178,19 @@ console.log('Задание 5.5');
     let productsWithPicture = productsWithPictureProperties.filter(product => product.photos.length > 0 );
 
     console.log(productsWithPicture);
+
+    products2.sort(function (a, b) {
+        if (a.price > b.price) {
+            return 1;
+        }
+        if (a.price < b.price) {
+            return -1;
+        }
+        return 0;
+    });
+
+    console.log(products2);
+
 console.log('Задание 5.6');
 // (По желанию, т.к. такая особенность практически не используется)
 // Вывести с помощью цикла for числа от 0 до 9, НЕ используя тело цикла.
