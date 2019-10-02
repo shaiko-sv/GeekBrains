@@ -34,7 +34,7 @@ if ((a >= 0) && (b >= 0)) {
     console.log(a - b)
 } else if ((a < 0) && (b < 0)) {
     console.log(a * b)
-} else {
+} else { // если a и b оба не положительные и оба не отрицательные, значит они разных знаков (не поняла, в чем сложность задания)
     console.log(a + b)
 }
 
@@ -190,3 +190,49 @@ function power(val, pow) {
     }
 }
 console.log("power(val, pow) = ", power(2, 8));
+
+// 6**. (Сложное задание, требует времени и возможно гугления, делайте по желанию.) Программа должна спросить у пользователя число, это будет количество денег, которое он хочет положить на счет в банке. Затем программа должна выдать примерно такое сообщение:
+// "Ваша сумма в 101 рубль успешно зачислена." - в случае если пользователь ввел 101.
+// "Ваша сумма в 10020 рублей успешно зачислена." - в случае если пользователь ввел 10020.
+// "Ваша сумма в 120104 рубля успешно зачислена." - в случае если пользователь ввел 120104.
+// То есть ваша задача выводить слово «рубль» в правильном падеже, в зависимости от введенного числа.
+alert('<<< Welcome to LuckyBank >>>');
+let minDeposit = 100;
+let depositSum = prompt(`Введите сумму для пополнения счета (мин сумма ${minDeposit})?`);
+// проверяем если введенная сумма меньше минимальной
+if (depositSum < minDeposit) {
+    alert(`Вы ввели сумму меньше ${minDeposit} рублей`)
+} else {
+    // сначала отделяем последние 2 цифры
+    let lastTwoDigits = depositSum.slice(depositSum.length - 2, depositSum.length);
+    console.log(lastTwoDigits);
+    // проверяем если они лежат в диапазоне от 11 до 19
+    let rightFormWord = '';
+    if (lastTwoDigits >= 11 && lastTwoDigits <= 19) {
+        // если ДА, то склонение будет 'рублей'
+        rightFormWord = 'рублей';
+    } else {
+        // отделяем последнюю цифру
+        let lastDigit = Number(depositSum[depositSum.length - 1]);
+        console.log(lastDigit);
+        rightFormWord = '';
+        switch (lastDigit) {
+            case 0:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+                rightFormWord = "рублей";
+                break;
+            case 1:
+                rightFormWord = "рубль";
+                break;
+            case 2:
+            case 3:
+            case 4:
+                rightFormWord = "рубля";
+        }
+    }
+    alert(`Ваша сумма в ${depositSum} ${rightFormWord} успешно зачислена`);
+}

@@ -1,0 +1,185 @@
+CREATE SCHEMA `CedrusIceCream` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin ;
+
+CREATE TABLE `CedrusIceCream`.`category` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(128) NOT NULL,
+  PRIMARY KEY (`id`));
+
+ALTER TABLE `CedrusIceCream`.`category`
+ADD COLUMN `alias_name` VARCHAR(128) NULL AFTER `name`;
+
+SELECT * FROM CedrusIceCream.category;
+
+DROP TABLE `CedrusIceCream`.`category`
+
+DROP DATABASE `CedrusIceCream`
+
+CREATE TABLE `CedrusIceCream`.`units` (
+  `id` INT NOT NULL,
+  `name` VARCHAR(3) NOT NULL,
+  `description` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`))
+COMMENT = 'kg, l, un, m';
+
+CREATE TABLE `CedrusIceCream`.`sub_category` (
+  `id` INT NOT NULL,
+  `name` VARCHAR(128) NOT NULL,
+  `description` VARCHAR(256) NULL,
+  PRIMARY KEY (`id`));
+
+ALTER TABLE `CedrusIceCream`.`sub_category`
+CHANGE COLUMN `id` `id` INT(11) NOT NULL AUTO_INCREMENT ;
+
+ALTER TABLE `CedrusIceCream`.`units`
+CHANGE COLUMN `id` `id` INT(11) NOT NULL AUTO_INCREMENT ;
+
+INSERT INTO `CedrusIceCream`.`units` (`name`, `description`) VALUES ('kg', 'kilogram');
+INSERT INTO `CedrusIceCream`.`units` (`name`, `description`) VALUES ('l', 'liter');
+INSERT INTO `CedrusIceCream`.`units` (`name`, `description`) VALUES ('un', 'unit');
+INSERT INTO `CedrusIceCream`.`units` (`name`, `description`) VALUES ('m', 'meter');
+
+INSERT INTO `CedrusIceCream`.`category` (`name`) VALUES ('raw materials');
+INSERT INTO `CedrusIceCream`.`category` (`name`) VALUES ('packaging');
+INSERT INTO `CedrusIceCream`.`category` (`name`) VALUES ('equipment');
+INSERT INTO `CedrusIceCream`.`category` (`name`) VALUES ('construction materials');
+INSERT INTO `CedrusIceCream`.`category` (`name`) VALUES ('hegienic materials');
+INSERT INTO `CedrusIceCream`.`category` (`name`) VALUES ('utilities');
+INSERT INTO `CedrusIceCream`.`category` (`name`) VALUES ('office materials');
+
+use CedrusIceCream; -- используем базу данных CedrusIceCream;
+
+
+-- Создаем таблицу Product;
+CREATE TABLE `CedrusIceCream`.`product` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `category_id` INT NOT NULL,
+  `sub_category_id` INT NOT NULL,
+  `price` DECIMAL(10,2) NOT NULL,
+  `product_name` VARCHAR(128) NOT NULL,
+  PRIMARY KEY (`id`));
+
+-- Доавляем категорию для подкатегорий;
+ALTER TABLE `CedrusIceCream`.`sub_category`
+ADD COLUMN `category_id` INT NOT NULL AFTER `description`;
+
+-- Добавляем ключи Foreign Key;
+ALTER TABLE `CedrusIceCream`.`sub_category`
+ADD INDEX `fk_category_sub_category_idx` (`category_id` ASC);
+;
+ALTER TABLE `CedrusIceCream`.`sub_category`
+ADD CONSTRAINT `fk_category_sub_category`
+  FOREIGN KEY (`category_id`)
+  REFERENCES `CedrusIceCream`.`category` (`id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+-- Добавляем подкатегории;
+INSERT INTO `CedrusIceCream`.`sub_category` (`name`, `category_id`) VALUES ('milk', '1');
+INSERT INTO `CedrusIceCream`.`sub_category` (`name`, `category_id`) VALUES ('sticks', '2');
+INSERT INTO `CedrusIceCream`.`sub_category` (`name`, `category_id`) VALUES ('printer', '8');
+
+-- Добавляем что столбец может иметь только уникальные названия;
+ALTER TABLE `CedrusIceCream`.`sub_category`
+ADD UNIQUE INDEX `name_UNIQUE` (`name` ASC);
+
+ALTER TABLE `CedrusIceCream`.`category`
+ADD UNIQUE INDEX `name_UNIQUE` (`name` ASC);
+
+ALTER TABLE `CedrusIceCream`.`units`
+ADD UNIQUE INDEX `name_UNIQUE` (`name` ASC);
+
+ALTER TABLE `CedrusIceCream`.`product`
+ADD UNIQUE INDEX `product_name_UNIQUE` (`product_name` ASC);
+
+-- Добавил колонку, единицы измерения;
+ALTER TABLE `CedrusIceCream`.`product`
+ADD COLUMN `units_id` INT NOT NULL AFTER `product_name`;
+
+-- Добавляем внешние ключи к таблице Product;
+ALTER TABLE `CedrusIceCream`.`product`
+ADD INDEX `fk_category_product_idx` (`category_id` ASC),
+ADD INDEX `fk_sub_category_product_idx` (`sub_category_id` ASC),
+ADD INDEX `fk_units_product_idx` (`units_id` ASC);
+;
+ALTER TABLE `CedrusIceCream`.`product`
+ADD CONSTRAINT `fk_category_product`
+  FOREIGN KEY (`category_id`)
+  REFERENCES `CedrusIceCream`.`category` (`id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION,
+ADD CONSTRAINT `fk_sub_category_product`
+  FOREIGN KEY (`sub_category_id`)
+  REFERENCES `CedrusIceCream`.`sub_category` (`id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION,
+ADD CONSTRAINT `fk_units_product`
+  FOREIGN KEY (`units_id`)
+  REFERENCES `CedrusIceCream`.`units` (`id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+-- Создаем таблицу рецептур с внешними ключами;
+CREATE TABLE `CedrusIceCream`.`recipe` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `product_id` INT NOT NULL,
+  `date` DATE NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_product_recipe_idx` (`product_id` ASC),
+  CONSTRAINT `fk_product_recipe`
+    FOREIGN KEY (`product_id`)
+    REFERENCES `CedrusIceCream`.`product` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+-- Создаем таблицу хранения компонентов рецептуры с внешними ключами;
+CREATE TABLE `CedrusIceCream`.`recipe_products` (
+  `recipe_id` INT NOT NULL,
+  `product_id` INT NOT NULL,
+  `quantity` INT NOT NULL,
+  PRIMARY KEY (`recipe_id`, `product_id`),
+  INDEX `fk_recipe_products_product_idx` (`product_id` ASC),
+  CONSTRAINT `fk_recipe_products_recipe`
+    FOREIGN KEY (`recipe_id`)
+    REFERENCES `CedrusIceCream`.`recipe` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_recipe_products_product`
+    FOREIGN KEY (`product_id`)
+    REFERENCES `CedrusIceCream`.`product` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+ -- добавил ед. измерения ящик;
+ INSERT INTO `CedrusIceCream`.`units` (`name`, `description`) VALUES ('bx', 'box');
+
+ -- добавил подкатегорию Мороженое;
+ INSERT INTO `CedrusIceCream`.`sub_category` (`name`, `category_id`) VALUES ('ice cream', '3');
+
+ -- добавил категорию субпродукт;
+ INSERT INTO `CedrusIceCream`.`category` (`name`) VALUES ('semi product');
+
+ -- добавил подкатегорию Смесь;
+ INSERT INTO `CedrusIceCream`.`sub_category` (`name`, `category_id`) VALUES ('mix', '9');
+
+ -- добавил продукты для теста;
+ INSERT INTO `CedrusIceCream`.`product` (`category_id`, `sub_category_id`, `price`, `product_name`, `units_id`) VALUES ('1', '1', '5', 'whole milk powder', '1');
+ INSERT INTO `CedrusIceCream`.`product` (`category_id`, `sub_category_id`, `price`, `product_name`, `units_id`) VALUES ('2', '2', '1', 'round wood stick', '3');
+ INSERT INTO `CedrusIceCream`.`product` (`category_id`, `sub_category_id`, `price`, `product_name`, `units_id`) VALUES ('9', '5', '0', 'mix 10%', '1');
+ INSERT INTO `CedrusIceCream`.`product` (`category_id`, `sub_category_id`, `price`, `product_name`, `units_id`) VALUES ('3', '4', '0', 'esquimo', '5');
+
+ -- добавил номера рецептура;
+INSERT INTO `CedrusIceCream`.`recipe` (`product_id`, `date`) VALUES ('5', '01/10/2019');
+INSERT INTO `CedrusIceCream`.`recipe` (`product_id`, `date`) VALUES ('6', '01/10/2019');
+
+-- исправил дату;
+UPDATE `CedrusIceCream`.`recipe` SET `date` = '2019-10-01' WHERE (`id` = '1');
+UPDATE `CedrusIceCream`.`recipe` SET `date` = '2019-10-01' WHERE (`id` = '2');
+
+-- добавил две рецептуры;
+INSERT INTO `CedrusIceCream`.`recipe_products` (`recipe_id`, `product_id`, `quantity`) VALUES ('1', '3', '10');
+INSERT INTO `CedrusIceCream`.`recipe_products` (`recipe_id`, `product_id`, `quantity`) VALUES ('2', '5', '1');
+INSERT INTO `CedrusIceCream`.`recipe_products` (`recipe_id`, `product_id`, `quantity`) VALUES ('2', '4', '10');
+
+
+
+
