@@ -82,6 +82,7 @@ function numberParts(number) {
 console.log(numberParts(number));
 
 // 2. Реализовать собственный каталог товаров
+// Реализация по принципу ООП
 const IDS = [1,2,3,4];
 const ITEMS = ['milk','bread','juice','cheese'];
 const PRICES = [5, 2, 10, 15];
@@ -89,11 +90,22 @@ let shop = {
     catalog: [],
     cart: [],
     cartSum: 0,
+    /**
+     *  Метод герерации каталога
+     */
     createCatalog: function () {
         for (let i = 0; i < ITEMS.length; i++) {
             this.catalog.push(this._createProduct(IDS[i], ITEMS[i], PRICES[i]))
         }
     },
+    /**
+     * Какая-то там функция :) возвращает объект продукт
+     * @param id - код продукта
+     * @param name - название продукта
+     * @param price - цена продукта
+     * @returns {{id: *, name: *, price: *}}
+     * @private
+     */
     _createProduct: function(id, name, price) {
         return {
             id: id,
@@ -101,16 +113,29 @@ let shop = {
             price: price,
         }
     },
+    /**
+     * метод подсчета суммы продуктов в корзине
+     */
     cartCalcSum: function () {
         for (let i = 0; i < this.cart.length; i++) {
             this.cartSum += this.cart[i].quantity * this.cart[i].product.price;
         }
     },
+    /**
+     * Метод генерации корзины
+     */
     createCart: function () {
         for (let i = 0; i < this.catalog.length; i++) {
             this.cart.push(this._cartProductAdd(i))
         }
     },
+    /**
+     * Суб метод. Возвращает объект (продукт и кол-во)
+     * @param id - код продукта
+     * @param quantity - кол-во случайное от 1 до 10
+     * @returns {{product: *, quantity: number}}
+     * @private
+     */
     _cartProductAdd: function (id, quantity=Math.round(Math.random()*10)) {
         return {
             product: this.catalog[(id)],
@@ -124,9 +149,14 @@ shop.createCatalog();
 shop.createCart();
 
 shop.cartCalcSum();
+console.log(shop.catalog);
+console.log(shop.cart);
+console.log(shop.cartSum);
 
 
 // 3. Доделать игру Камень-Ножницы-Бумага
+
+// Используем принцип ООП
 
 //КАМЕНЬ, НОЖНИЦЫ, БУМАГА
 // 1 - камень
@@ -141,6 +171,10 @@ let game = {
     score: {player:0, PC:0},
     choicePC: [],
     choicePlayer: [],
+    /**
+     * Метод запуска игры
+     * После очередного хода вывод сообщение о результате игры
+     */
     gameStart: function () {
         alert('Добро пожаловать в игру "Камень-Ножницы-Будага"');
         let playerName = prompt('Введите Ваше имя:');
@@ -153,23 +187,43 @@ let game = {
             }
         }
     },
+    /**
+     * Метод генерации выбора ПК
+     * @returns {number} - случайное число от 1 до 3
+     */
     movePC: function () {
         let PC = Math.floor(Math.random () * 3) + 1;
         return PC;
     },
+    /**
+     * Метод для ввода выбора игрока
+     * @returns {number} - выбор игрока число от 1 до 3
+     */
     movePlayer: function () {
         let me = +prompt ('1 - камень \n2 - ножницы \n3 - бумага');
         return me;
     },
+    /**
+     * Метод записи выбора игрока и ПК
+     * @returns {*[]} - возвращает массив из двух чисел
+     * @private
+     */
     _moveRecord: function () {
 
         return [this.movePlayer(), this.movePC()]
     },
+    /**
+     * Метод увеличивает счетчик шагов на 1 и записывает результат игры в массив истории игры.
+     */
     move: function f() {
         this.moveCount++;
         //this.moveData.push({[this.moveCount]: this._moveRecord()});
         this.moveData.push(this._moveRecord());
     },
+    /**
+     * Метод определяет исход очередной игры и изменяет значение счета
+     * @returns {number} - возвращает номер результата
+     */
     moveResult: function () {
         let result;
         let me = this.moveData[this.moveCount-1][0];
