@@ -180,6 +180,42 @@ INSERT INTO `CedrusIceCream`.`recipe_products` (`recipe_id`, `product_id`, `quan
 INSERT INTO `CedrusIceCream`.`recipe_products` (`recipe_id`, `product_id`, `quantity`) VALUES ('2', '5', '1');
 INSERT INTO `CedrusIceCream`.`recipe_products` (`recipe_id`, `product_id`, `quantity`) VALUES ('2', '4', '10');
 
+-- объединение таблиц с заменой названий столбцов;
+select product.id, product_name, units.name as units_name, category.name as category_name, sub_category.name as sub_category, price from product
+	inner join category on product.category_id = category.id
+    inner join units on units.id = product.units_id
+    inner join sub_category on sub_category.id = product.sub_category_id;
+
+-- left join - получаем категории для которых нет ни одного товара;
+select category.* from category
+	left join product on product.category_id = category.id
+    where product.id is null;
+
+-- right join - получаем аналогичный результат, как у запроса выше;
+select category.* from product
+	right join category on product.category_id = category.id
+    where product.id is null;
+
+-- left join;
+select product.id, product.product_name from product
+	left join recipe_products on product.id = recipe_products.product_id
+    where recipe_products.product_id is null;
+
+-- full outer join;
+select * from recipe
+
+union
+
+select * from product;
 
 
+select sum(price) as total_price, min(price) as min_price, max(price) as max_price from product;
 
+select * from recipe
+	inner join recipe_products on recipe_products.recipe_id = recipe.id
+    inner join product on product.id = recipe_products.product_id;
+
+select sum(quantity * price) as cost from recipe
+	inner join recipe_products on recipe_products.recipe_id = recipe.id
+    inner join product on product.id = recipe_products.product_id
+    where recipe.id = 2;
