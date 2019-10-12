@@ -1,0 +1,92 @@
+.board {
+    width: 360px;
+    height: 360px;
+    border: 1px black solid;
+}
+.row {
+    display: flex;
+    height: 40px;
+}
+.rowNarrow {
+    display: flex;
+    height: 20px;
+}
+.white {
+    background-color: white;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+.black {
+    background-color: black;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.whiteFigure {
+    color: white;
+    font-weight: bold;
+    text-shadow: black 1px 1px 0, black -1px -1px 0, black -1px 1px 0, black 1px -1px 0;
+}
+.blackFigure {
+    color: black;
+    font-weight: bold;
+    text-shadow: white 1px 1px 0, white -1px -1px 0, white -1px 1px 0, white 1px -1px 0;
+}
+.empty {
+    background-color: white;
+    width: 20px;
+    height: 20px;
+}
+.letter {
+    width: 40px;
+    height: 20px;
+    text-align: center;
+}
+.number {
+    width: 20px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.borderLeft {
+    border-left: 1px black solid;
+    box-sizing: border-box;
+}
+.borderRight {
+    border-right: 1px black solid;
+    box-sizing: border-box;
+}
+.borderTop {
+    border-top: 1px black solid;
+    box-sizing: border-box;
+}
+.borderBottom {
+    border-bottom: 1px black solid;
+    box-sizing: border-box;
+}
+.rotate {
+    transform: rotate(180deg);
+}
+#roulette {
+    display: inline-block
+}
+#roulette img {
+    display: inline-block;
+    width: 100px;
+    margin: 5px
+}
+
+#wrapper {
+    width: 400px;
+    height: 400px;
+}
+
+#wrapper img {
+    height: 380px;
+    margin-bottom: 10px
+}
