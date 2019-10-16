@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript. Level 1</title>
+    <link rel="shortcut icon" href="img/javascript_icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="style/style.css">
+</head>
+<body>
+<h1>ДЗ Урок 6</h1>
+<p>Задание с рекурсией</p>
+<br/>
+
+
+
+<script>
+    //доп задание 1
+        obj = {
+            a: 3,
+            b: [
+    		{
+     			a: 2,
+     			b: [
+     				{a: 3, c: 'qwe1'}, {a: 3, c: 'qwe2'}, {a: 3, c: 'qwe3'}
+     			]
+    		},
+    		{
+    			a: 2,
+    			b: [
+    				{a: 3, c: 'qwer1'}, {a: 3, c: 'qwer2'}
+    			]
+    		},
+    		{
+    			a: 2,
+    			b: [
+    				{a: 3, c: 'qwert1'}
+    			]
+    		}
+    	]
+    };
+    // рекурсия
+
+
+    function recursivePass(obj) {
+        let keys = Object.keys(obj);
+        let objectTest = obj[keys[0]];
+        console.log(keys);
+        console.log(objectTest);
+        if (keys.length === 1 && (typeof (objectTest) === 'string' || typeof (objectTest) === 'number')) { // случай (1)
+            console.log(obj);
+            return obj
+        } else {
+            let newArray = [];
+            if ((keys.length === 1) && (objectTest.constructor === Array)) {
+                objectTest = objectTest.reduce(function (result, item) {
+                    var key = Object.keys(item)[0];
+                    result[key] = item[key];
+                    return result;
+                }, {});
+                console.log(objectTest);
+                console.log(newArray);
+                newArray.push(recursivePass(objectTest));
+                console.log(newArray);
+            } else { // случай (2)
+                for (let key of keys) {
+                    console.log(key);
+                    let newObj = {[key]: obj[key]};
+                    console.log(newObj);
+                    newArray.push(recursivePass(newObj));
+                    console.log(newArray);
+                }
+            }
+            return newArray;
+        }
+    }
+
+    console.log(recursivePass(obj));
+
+ </script>
+
+</body>
+</html>
