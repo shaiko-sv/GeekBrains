@@ -1,124 +1,71 @@
-/*
-Catalog and cart styles
- */
 body {
-    max-width: 90%;
-    margin: 15px auto;
-    position: relative;
+    background: #2e353d;
 }
-.catalog {
-    display: grid;
-    grid-gap: 50px;
-    grid-template-columns: repeat(4, 20%);
-}
-.product {
-    box-shadow: #eeeeee 0px 0px 7px 3px;
+
+button {
+    width: 150px;
     padding: 15px;
-}
-.product:hover {
-    box-shadow: #999999 0px 0px 7px 3px;
-}
-.productName {
-    text-transform: uppercase;
-    font-weight: bold;
-    text-align: center;
-    margin: 0;
-}
-.product img,
-.productDescription {
-    max-width: 100%;
-    height: 150px;
-    margin: 0 auto;
-}
-.product button {
+    margin: 10px;
+    color: white;
+    background: #007b32;
+    border: none;
+    outline: none;
     cursor: pointer;
-    padding: 5px;
-    margin-right: 10px;
 }
-.cartBtn {
-    position: absolute;
-    left: 86%;
-    top: 2%;
-    display: flex;
-    width: 75px;
+
+button:hover {
+    background: #009641;
 }
-.cartBtn img {
-    display: inline-block;
+
+button:active {
+    background: #9cfb02;
+    color: black;
 }
-table {
-    font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
-    font-size: 14px;
-    background: white;
-    max-width: 70%;
-    width: 70%;
+
+#game {
     border-collapse: collapse;
-    text-align: left;
+    margin: 30px 0;
+    min-height: 200px;
 }
-th {
-    font-weight: normal;
-    color: #039;
-    border-bottom: 2px solid #6678b1;
-    padding: 10px 8px;
-}
+
 td {
-    color: #669;
-    padding: 9px 8px;
-    transition: .3s linear;
-    border-bottom: 1px solid #ccc;
-    transition: .3s linear;
-}
-td img {
-    display: block;
-    margin: 0 auto;
-}
-tr:hover td {color: #6699ff;}
-tr:hover td {background: #e8edff;}
-
-/*
-Gallery styles
- */
-#gallery {
-    width: 670px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #eee;
 }
 
-#roulette {
-    display: flex;
-    width: 670px;
+.food {
+    background: #00d021;
 }
 
-#roulette img {
-    display: inline-block;
-    width: 75px;
-    margin: 5px;
+.obstacle {
+    background: #aaaaaa;
 }
 
-#wrapper {
-    margin: 0 auto;
-    display: flex;
-    height: 380px;
-    justify-content: left
-;
+.snakeBody {
+    background: #aeaa16;
 }
 
-#wrapper img {
-    object-fit: contain;
-    margin-bottom: 10px;
-    width: calc(670px - 30px) ;
+#message {
+    color: orange;
+    font-size: 24px;
+    font-family: sans-serif;
+    font-weight: bold;
 }
 
-#left,
-#right {
-    width: 15px;
-    display: flex;
-    align-items: center;
-    font-size: 25px;
-}
-#left i,
-#right i {
-    cursor: pointer;
+.score {
+    color: white;
+    font-size: 30px;
+    font-family: sans-serif;
 }
 
-#active {
-    outline: 1px gray solid;
+.current {
+    font-weight: bold;
+    color: orange;
+}
 
+.toWin {
+    font-size: 1.5em;
+    color: #920066;
+    font-weight: bold;
 }
