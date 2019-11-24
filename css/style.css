@@ -1,6 +1,9 @@
 body {
     font-family: 'SF Pro Display', sans-serif;
 }
+div {
+    display: block;
+}
 p {
     margin: 0 0 5px 0;
 }
@@ -83,7 +86,7 @@ button:focus{
     border-bottom: 10px solid white;
 }
 .invisible{
-    display: none;
+    display: none !important;
 }
 .cart-item {
     display: flex;

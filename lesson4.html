@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JavaScript. Level 2. Lesson 4.</title>
+    <link rel="shortcut icon" href="img/javascript_icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<script>
+    "use strict";
+
+    // Синтаксис 1
+    // let regexp = new RegExp('само рег выражение', 'флаги');
+
+    // Синтаксис 2
+    // let regexp = /регвыражение/флаги;
+
+    let str = 'Язык JavaScript называется так из-за популярности языка Java';
+
+    let regexp = new RegExp('java', 'ig')
+
+    // Flags -----------------------------------
+    // i - поиск без учета региста
+    // g - множестенный поиск
+    // m - многострочный поиск
+
+    // String methods --------------------------
+
+    // search
+    // индекс первого вхождения
+    // -1 в том случае, если вхождение не найдено
+    // не чувствителен к флагу g
+    //console.log(str.search(regexp));
+
+    //match
+    //возвращает псевдо массив с подробной информацией
+    //если не нашел, то возвращает null
+    // console.log(str.match(/java/));
+
+    // Замены
+    // console.log('+7 (000) 000-00-00'.replace('-', ':'));
+    // console.log('+7 (000) 000-00-00'.replace(/-/g, ':'));
+
+    // let name = 'Doe, John';
+    // console.log(name.replace(/([a-z]+), ([a-z]+)/i, 'Hello, $2'));
+    // console.log(name.replace(/([a-z]+), ([a-z]+)/i, '$&'));
+
+    // Классы
+    // \d - любая цифра = [0123456789] = [0-9]
+    // \w - слово [a-z0-9_]
+    // \s - пробелы [space, tab, \n]
+    // [а-яё] - кириллица
+    // \b - граница слова
+    // \D - все символы кроме цифр - отрицания
+
+    // Квантификатор
+    // {m} - срого m повторений
+    // {m,n} - от m до n повторений !после запятой не ставить пробел
+    // {m,} - от m до бесконечности
+    // {,m} - от 0 до m раз
+
+    // Сокращения
+    // + - {1,}
+    // * - {0,}
+    // ? - {0,1}
+
+    // console.log('+7 (000) 000-00-00'.match(/\d/g));
+    // console.log('+7 (000) 000-00-00'.match(/\d+/g));
+    // console.log('+7 (000) 000-00-00'.match(/\d+/g).join(''));
+    //
+    let str3 = 'color colour colotr';
+    let str4 = str3.replace(/\s+/g, '');
+    console.log(str4);
+    let a = str3.match(/colo[tu]?r/ig).join('');
+    console.log(a);
+    console.log(a === str4);
+
+    // границы слова
+    // console.log('Язык JavaScript'.match(/\bjava\b/i));
+    // console.log('Язык Java'.match(/\bjava\b/i));
+
+    // начало ^ и конец $ строки
+    // console.log('Язык Java'.match(/^java/i));
+    // console.log('Java Язык'.match(/^java/i));
+    // console.log('Язык Java'.match(/java$/i));
+    // console.log('Java Язык'.match(/java$/i));
+
+    // поиск спецсимволов нужно экранировать дополнительным обратным слэшь \
+
+    // console.log('Capter 7.2'.match(/\d\.\d/));
+    // console.log('Capter 7d2'.match(/\d\.\d/));
+
+    //Regexp methods
+
+    //exec
+    // копия метода match
+
+    //test
+    //console.log(/java/i.test('JavaScript'));
+    //console.log(/java/.test('JavaScript'));
+
+    //console.log(/java/i.exec('JavaScript Java'));
+    //console.log(/java/ig.exec('JavaScript'));
+
+    // let result;
+    // let regexp2 = /java/ig;
+    //
+    // console.log(`Start ${regexp2.lastIndex}`);
+    //
+    // while (result = regexp2.exec(str)) {
+    //     console.log(result);
+    //     console.log(`${regexp2.lastIndex}`)
+    // }
+    //
+    // console.log(`End ${regexp2.lastIndex}`);
+</script>
+</body>
+</html>

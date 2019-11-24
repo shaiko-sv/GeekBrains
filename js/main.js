@@ -23,6 +23,7 @@ class List {
         this.url = url;
         this.data = [];
         this.allProducts = [];
+        this.filtered = [];
         this._init()
     }
 
@@ -42,7 +43,6 @@ class List {
     getItem(id) {
         return this.allProducts.find(elem => elem.id_product === id);
     }
-
     render() {
         const block = document.querySelector(this.container);
         for (let product of this.data) {
@@ -50,6 +50,19 @@ class List {
             this.allProducts.push(prod);
             block.insertAdjacentHTML('beforeend', prod.render());
         }
+    }
+    filter(value){
+        const regexp = new RegExp(value, 'i');
+        this.filtered = this.allProducts.filter(el => regexp.test(el.product_name));
+        this.allProducts.forEach(el => {
+            const block = document.querySelector(`.product-item[data-id="${el.id_product}"]`);
+            if (this.filtered.includes(el)){
+                block.classList.remove('invisible')
+            } else {
+                block.classList.add('invisible')
+
+            }
+        })
     }
     _init(){
         return false;
@@ -64,7 +77,7 @@ class Item {
         this.img = img
     }
     render() {
-        return `<div class="product-item">
+        return `<div class="product-item" data-id="${this.id_product}">
                 <img class="product-img" src="${this.img}" alt="${this.product_name}">
                 <div class="desc">
                     <h3>${this.product_name}</h3>
@@ -89,6 +102,10 @@ class ProductsList extends List{
                 let id = +event.target.dataset['id'];
                 cart.addProductToCart(this.getItem(id))
             }
+        });
+        document.querySelector('.search-form').addEventListener('submit', e => {
+            e.preventDefault();
+            this.filter(document.querySelector('.search-field').value);
         })
     }
 }
@@ -190,7 +207,8 @@ class CartItem extends Item {
 let listRef = {
     ProductsList: ProductItem,
     Cart: CartItem,
-}
+};
+
 const cart = new Cart();
 const products = new ProductsList(cart);
 products.getJson(`getProducts.json`)
