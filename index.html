@@ -2,34 +2,159 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>JavaScript. Level 2</title>
-    <link rel="shortcut icon" href="img/javascript_icon.png" type="image/x-icon">
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/style.css">
+    <title>HTML5 + CSS3</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"> <!-- link to icon of page -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <!-- adaptive  -->
+    <!-- Main CSS -->
+<!--<link rel="stylesheet" href="css/style.css">-->
+    <style>
+        .block{
+            width: 200px;
+            height: 200px;
+            background-color: gray;
+        }
+        .red{
+            background-color: red;
+        }
+        .blue{
+            background-color: blue;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1 class="logo">E-SHOP</h1>
-        <div class="cart">
-            <form action="#" method="post" class="search-form">
-                <input type="text" class="search-field">
-                <button class="btn-search" type="submit">
-                    <i class="fas fa-search"></i>
-                </button>
-            </form>
-            <button class="btn-cart" type="button">Корзина</button>
-            <div class="cart-block invisible"></div>
+<div id="app">
+
+    <div class="products">
+        <div class="product" v-for="item of products">
+            <img :src="item.img" alt="">
+            <div class="desc">
+                <p>{{item.title}}</p>
+                <p>{{item.price * item.quantity}}</p>
+                <p>{{item.quantity}}</p>
+                <button @click="item.quantity++">Buy</button>
+            </div>
+            <button @click="addProduct">Add product</button>
         </div>
-    </header>
-    <main>
-        <!--beforebeguin-->
-        <div class="products">
-            <!--afterbeguin-->
-            <!--beforeend-->
-        </div>
-        <!--afterend-->
-    </main>
-    <script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js" integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP" crossorigin="anonymous"></script>
-    <script src="js/main.js"></script>
+    </div>
+
+    <p v-if="show">I'am visible</p>
+    <p v-else>Now I am visible</p>
+    <p>Static</p>
+
+    <p v-show="show">Styled</p>
+    <button @click="show = !show">Switch</button>
+
+    <div class="block" :class="{red: isRed, blue: !isRed}" @click="isRed = !isRed"></div>
+    <div class="block" :class="divClasses" @click="isRed = !isRed"></div>
+
+    <div class="block" :style="{backgroundColor: color}"></div>
+
+    <div class="block" :style="myStyle"></div>
+    <input type="text" v-model.lazy="color">
+    <input type="text" v-model.lazy="width">
+
+     <h2 v-once>Заголовок {{ title }}</h2>
+    <strong>{{ sayHello() }}</strong>
+
+    <a v-bind:href="link">Google</a>
+    <a :href="link">Google</a>
+
+    <div v-html="completeEl"></div>
+
+    <div class="counter">
+<!--    <button v-on:click="increase">Increase</button>-->
+        <button @click="increase(2, $event)">Increase</button>
+        <button @click="counter++">Increase</button>
+        <button @click="counter += 2">Increase</button>
+        <p>{{ counter }}</p>
+        <p>{{ counter < 5 ? 'Less than 5' : 'Grater than 5' }}</p>
+
+        <p @mousemove="getCoordinates">Some long-long string {{x}} / {{y}}
+        <strong @mousemove.stop>NO COORDINATES</strong>
+        </p>
+
+        <input type="text" v-model="name">
+        <p>{{name}}</p>
+
+        <input type="text" v-model.lazy="name">
+        <p>{{name}}</p>
+
+        <button @click="counter++">Increse</button>
+        <button @click="counter--">Decrese</button>
+        <button @click="counterSecond++">IncreaseSecond</button>
+        <p>Counter: {{counter}} | {{counterSecond}}</p>
+        <p>Result: {{result()}} | {{output}}</p>
+    </div>
+</div>
+<!-- development version, includes helpful console warnings -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            title: 'Hello World!',
+            link: 'https://google.com',
+            completeEl: '<a href="https://google.com">Google Compete</a>',
+            counter: 0,
+            counterSecond: 0,
+            x: 0,
+            y: 0,
+            name: 'John',
+            isRed: false,
+            color: 'green',
+            width: 200,
+            show: true,
+            products: [
+                {img: `https://placehold.it/200x150`, title: 'Notebook', price: 2000, quantity: 1},
+                {img: `https://placehold.it/200x150`, title: 'Mouse', price: 20, quantity: 2},
+                {img: `https://placehold.it/200x150`, title: 'Chair', price: 500, quantity: 3},
+            ]
+        },
+        computed: {
+            output(){
+                console.log('computed');
+                return this.counterSecond < 5 ? 'Less than 5' : 'Greater than 5';
+            },
+            divClasses(){
+                return {
+                    red: this.isRed,
+                    blue: !this.isRed,
+                }
+            },
+            myStyle(){
+                return {
+                    backgroundColor: this.color,
+                    width: `${this.width}px`,
+                    height: `${this.width}px`,
+                }
+            }
+        },
+        methods: {
+            sayHello(){
+                this.title = 'Foo';
+                return this.title;
+            },
+            increase(step, event){
+                console.log(event);
+                this.counter += step;
+            },
+            getCoordinates(){
+                this.x = event.clientX;
+                this.y = event.clientY;
+            },
+            some(){
+                event.stopPropagation();
+            },
+            result(){
+                console.log('method');
+                return this.counter < 5 ? 'Less than 5' : 'Greater than 5';
+            },
+            addProduct(){
+                this.products.push({img: `https://placehold.it/200x150`, title: 'Table', price: 250, quantity: 4})
+            }
+        },
+
+    })
+</script>
 </body>
 </html>
