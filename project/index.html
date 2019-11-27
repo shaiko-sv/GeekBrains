@@ -13,16 +13,16 @@
     <header>
         <div class="logo">E-shop</div>
         <div class="cart">
-            <form action="#" method="post" class="search-form">
+            <form action="#" method="post" class="search-form" @submit.prevent="filter">
                 <input v-model="value" type="text" class="search-field">
-                <button class="btn-search" type="submit" @click.prevent="filter(value)">
+                <button class="btn-search" type="submit">
                     <i class="fas fa-search"></i>
                 </button>
             </form>
-            <button @click="show = !show" class="btn-cart" type="button">Корзина</button>
-            <div v-show="show" class="cart-block">
+            <button @click="showCart = !showCart" class="btn-cart" type="button">Корзина</button>
+            <div v-show="showCart" class="cart-block">
                 <p v-if="cartProducts.length === 0">Добавьте товар...</p>
-                <div class="cart-item" v-for="cartItem of cartProducts" :data-id="cartItem.id_product">
+                <div class="cart-item" v-for="cartItem of cartProducts" :key="cartItem.id_product">
                     <div class="product-bio">
                         <img :src="imgCart" :alt="cartItem.product_name">
                         <div class="product-desc">
@@ -33,7 +33,7 @@
                     </div>
                     <div class="right-block">
                         <p class="product-price">${{+cartItem.quantity*cartItem.price}}</p>
-                        <button @click="removeProduct(cartItem)" class="del-btn" :data-id="cartItem.id_product">&times;</button>
+                        <button @click="removeProduct(cartItem)" class="del-btn">&times;</button>
                     </div>
                 </div>
             </div>
