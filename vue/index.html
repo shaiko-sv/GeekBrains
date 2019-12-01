@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="../css/normalize.css">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .block{
+            width: 200px;
+            height: 200px;
+            background-color: #f00;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" @mousemove='getCoordinates()'>
+        <h2 v-once>{{ title }}</h2>
+        <strong>{{ sayHello() }}</strong>
+
+        <a :href="link">google.com</a> <!-- v-bind:href = :href-->
+
+        <div v-html='completeEl'></div>
+
+        <div class="counter">
+            <button @click='increase(2, $event)'>Increase</button> <!-- v-on:click = @click-->
+            <p>{{ counter }}</p>
+            <p>{{  counter < 5 ? 'Less than 5' : 'Grater than 5'}}</p>
+            <p>{{ x }} / {{ y }}</p>
+        </div>
+
+        <input type="text" v-model="name">
+        <p>{{ name }}</p>
+
+        <input type="text" v-model.lazy="name2">
+        <p>{{ name2 }}</p>
+
+        <!-- вычисляемые значения computed: {}-->
+
+        <button @click='counter++'>Increase</button>
+        <button @click='counter--'>Decrease</button>
+        <button @click='counterSecond++'>Increase Second</button>
+
+        <p>Counter: {{ counter }} | {{ counterSecond }}</p>
+        <p>Result: {{ result() }} | {{ output }}</p>
+
+        <!--Стилизация-->
+        <div class="block">
+
+        </div>
+    </div>
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
