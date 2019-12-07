@@ -2,14 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
     <title>Shop</title>
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/chat.css">
 </head>
 <body>
     <header>
         <div class="logo">E-shop</div>
         <button class="btn-cart" type="button">Корзина</button>
+        <div class="cart"></div>
     </header>
     <main>
         <!--beforebegin-->
@@ -20,6 +26,14 @@
         </div>
         <!--afterend-->
     </main>
+
+    <div class="chat" id="app" @click="isShow = !isShow"></div>
+
+    <script src="js/Cart.js"></script>
+    <script src="js/CartItem.js"></script>
+    <script src="js/ProductList.js"></script>
+    <script src="js/ProductItem.js"></script>
+    <script src="js/Chat.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
