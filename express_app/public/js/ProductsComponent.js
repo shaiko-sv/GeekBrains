@@ -25,14 +25,7 @@ Vue.component('products', {
         },
     },
     mounted() {
-        this.$parent.getJson(`${API + this.catalogUrl}`)
-            .then(data => {
-                for(let el of data){
-                    this.products.push(el);
-                    this.allProducts.push(el);
-                }
-            }),
-        this.$parent.getJson(`getProducts.json`)
+        this.$parent.getJson(`/api/products`)
             .then(data => {
                 for(let el of data){
                     this.products.push(el);

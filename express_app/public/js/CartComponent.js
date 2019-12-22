@@ -9,31 +9,55 @@ Vue.component('cart', {
     },
     methods: {
         addProduct(product){
-            this.$parent.getJson(`${API}/addToBasket.json`)
-                .then(data => {
-                    console.log(data);
-                    if (data.result) {
-                        let find = this.cartItems.find(el => el.id_product === product.id_product);
-                        if (find) {
+            let find = this.cartItems.find(el => el.id_product === product.id_product);
+            if (find) {
+                this.$parent.putJson(`/api/cart/${find.id_product}`, {quantity: 1})
+                    .then(data => {
+                        if(data.result){
                             find.quantity++;
-                        } else {
-                            let prod = Object.assign({quantity: 1}, product);
+                        }
+                    })
+            } else {
+                let prod = Object.assign({quantity: 1}, product);
+                this.$parent.postJson(`/api/cart`, prod)
+                    .then(data => {
+                        if(data.result){
                             this.cartItems.push(prod);
                         }
-                    }
-                })},
+                    })
+            }
+
+            // this.$parent.getJson(`${API}/addToBasket.json`)
+            //     .then(data => {
+            //         console.log(data);
+            //         if (data.result) {
+            //
+            //         }
+            //     })
+        },
 
         remove(cartItem){
             let find = this.cartItems.find(el => el.id_product === cartItem.id_product);
             if(find.quantity > 1){
-                find.quantity--;
+                this.$parent.putJson(`/api/cart/${find.id_product}`, {quantity: -1})
+                    .then(data => {
+                        if(data.result){
+                            find.quantity--;
+                        }
+                    })
             } else {
-                this.cartItems.splice(this.cartItems.indexOf(find), 1);
+                this.$parent.deleteJson(`/api/cart/${find.id_product}`)
+                    .then(data => {
+                        if(data.result){
+                            this.cartItems.splice(this.cartItems.indexOf(find), 1);
+                        }
+                    })
+
             }
         },
     },
     mounted() {
-        this.$parent.getJson(`${API + this.cartUrl}`)
+        this.$parent.getJson(`/api/cart`)
             .then(data => {
                 for(let el of data.contents){
                     this.cartItems.push(el);
@@ -69,7 +93,7 @@ Vue.component('cart-item', {
                         </div>
                     </div>
                     <div class="right-block">
-                        <p class="product-price">{{+cartItem.quantity*cartItem.price}}</p>
+                        <p class="product-price">{{+cartItem.quantity*+cartItem.price}}</p>
                         <button class="del-btn" @click="$emit('remove', cartItem)">&times;</button>
                     </div>
                 </div>`,
