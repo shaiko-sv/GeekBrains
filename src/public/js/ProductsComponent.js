@@ -1,4 +1,16 @@
-Vue.component('products', {
+const product = {
+    props: ['product', 'img'],
+    template: `<div class="product-item">
+                <img :src="img" :alt="product.product_name">
+                <div class="desc">
+                    <h3>{{ product.product_name }}</h3>
+                    <p>{{ product.price }}</p>
+                    <button class="buy-btn"
+                            @click="$root.$refs.cart.addProduct(product)">Купить</button>
+                </div>
+            </div>`,
+};
+export const products = {
     data() {
         return {
             catalogUrl: `/catalogData.json`,
@@ -7,6 +19,9 @@ Vue.component('products', {
             imgCatalog: `https://placehold.it/200x150`,
             filtered: [],
         }
+    },
+    components: {
+        product
     },
     methods: {
         filter(value){
@@ -40,17 +55,4 @@ Vue.component('products', {
             :product="product"
             :img="imgCatalog"></product>
         </div>`,
-});
-
-Vue.component('product', {
-    props: ['product', 'img'],
-    template: `<div class="product-item">
-                <img :src="img" :alt="product.product_name">
-                <div class="desc">
-                    <h3>{{ product.product_name }}</h3>
-                    <p>{{ product.price }}</p>
-                    <button class="buy-btn"
-                            @click="$root.$refs.cart.addProduct(product)">Купить</button>
-                </div>
-            </div>`,
-})
+};

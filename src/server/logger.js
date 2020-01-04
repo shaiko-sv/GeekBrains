@@ -2,7 +2,7 @@ const moment = require('moment');
 const fs = require('fs');
 
 const logger = (name, action) => {
-    fs.readFile('express_app/server/db/stats.json', 'utf8', (err, data) => {
+    fs.readFile('dist/server/db/stats.json', 'utf8', (err, data) => {
         if(err){
             console.log('Can`t read file');
         } else {
@@ -12,7 +12,7 @@ const logger = (name, action) => {
                 prod_name: name,
                 action: action
             });
-            fs.writeFile('express_app/server/db/stats.json', JSON.stringify(stat, null, 4), (err) => {
+            fs.writeFile('dist/server/db/stats.json', JSON.stringify(stat, null, 4), (err) => {
                 if(err){
                     console.log('Can`t write file');
                 }

@@ -71,3 +71,6 @@ fabric.properties
 
 .idea/inspectionProfiles/
 node_modules/
+dist/
+spec/support/
+src/public/js/CartComponentOld.js

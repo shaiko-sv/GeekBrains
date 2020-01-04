@@ -1,9 +1,17 @@
 "use strict";
+import {cart} from './CartComponent'
+import {products} from './ProductsComponent'
+import {filterEl} from './FilterComponent'
+import {error} from './ErrorComponent'
 
-const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
-
-const app = new Vue({
+export const app = {
     el: '#app',
+    components: {
+        cart,
+        products,
+        error,
+        'filter-el': filterEl
+    },
     methods: {
         getJson(url){
             return fetch(url)
@@ -43,4 +51,4 @@ const app = new Vue({
                 .catch(error => this.$refs.error.setText(error))
         },
     },
-});
+};
