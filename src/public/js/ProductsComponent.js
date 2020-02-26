@@ -10,6 +10,7 @@ const product = {
                 </div>
             </div>`,
 };
+
 export const products = {
     data() {
         return {
